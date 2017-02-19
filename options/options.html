@@ -1,0 +1,43 @@
+<!-- Extension options screen -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="options.css">
+		<script type="text/javascript" src="options.js"></script>
+	</head>
+
+	<body>
+		<h1 class="title">Trigger domains</h1>
+		<table id="table-domains">
+			<thead>
+				<th>Domain</th>
+				<th>Warning type</th>
+				<th>Warning severity</th>
+				<th>Delete</th>
+			</thead>
+
+			<!-- Editable / draft row for user input -->
+			<tbody>
+				<tr id="row-edit" class="hidden">
+					<td>
+						<input type="text" name="domain" title="Domain for which to trigger the warning message">
+					</td>
+					<td>
+						<select name="type" title="Type of warning message"></select> 
+					</td>
+					<td>
+						<select name="severity" title="Choose standard browser message (control) or the severity of the simulated warning message">
+						</select> 
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button type="button" id="btn-add">Add entry</button>
+		<span id="btns-control" class="hidden">
+			<button type="button" id="btn-accept" title="Accept and add new entry">Accept</button>
+			<button type="button" id="btn-cancel" title="Cancel new entry">Cancel</button>
+		</span>
+	</body>
+</html>

@@ -1,0 +1,87 @@
+/* Styling for extension option screen */
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    font: message-box;
+}
+
+.title {
+    font-size: 1.5em;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+
+table thead {
+    height: 38px;
+}
+
+table th > *,
+table td > * {
+    width: 95%;
+}
+
+table th {
+    padding: 11px 0px;
+    color: white;
+    background-color: #424F5A;
+}
+
+table tr {
+    background-color: #FFF;
+}
+
+table tr:nth-child(2n) {
+    background-color: #F2F2F2;
+}
+
+table tr > * {
+    border: 1px solid #DDD;
+    padding: 8px;
+}
+
+button {
+    margin: 2px 4px;
+    min-height: 30px;
+    min-width: 6.3em;
+    border: 1px solid #C1C1C1;
+    border-radius: 2px;
+    background-color: transparent;
+    text-shadow: none;    
+    color: #333;
+}
+
+button:hover {
+    background-color: #EBEBEB;
+}
+
+button:active {
+    background-color: #DADADA;
+}
+
+#btn-add,
+#btns-control {
+    float: right;
+}
+
+.btn-delete {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #E53935;    
+    cursor: pointer;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.hidden {
+    display: none;
+}
