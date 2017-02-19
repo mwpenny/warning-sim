@@ -64,6 +64,8 @@ function saveTable() {
         };
     }
     chrome.storage.local.set(data, function() {
+        chrome.runtime.sendMessage(data);  // Send to background script
+
         var e = chrome.runtime.lastError;
         if (e)
             console.log(e.message);
@@ -107,7 +109,7 @@ function commitEdit() {
     saveTable();
 }
 
-function domLoaded() {
+document.addEventListener("DOMContentLoaded", function() {
     var selectors = document.querySelectorAll("tr#row-edit select");
     populateDropdown(selectors[0], warningTypes);
     populateDropdown(selectors[1], severities);
@@ -131,6 +133,4 @@ function domLoaded() {
     });
 
     loadTable();
-}
-
-document.addEventListener("DOMContentLoaded", domLoaded);
+});
