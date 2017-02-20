@@ -1,6 +1,45 @@
 /* Loader for injecting warning messages into pages */
 
 var resBase = chrome.runtime.getURL("warning/");
+var startTime = new Date().getTime() / 1000;
+var metrics = {
+	clickedMoreInfo: false,
+	clickedBack: false,
+	clickedIgnore: false,
+	timeElapsed: 0  // In seconds
+};
+
+function saveMetrics(cb) {
+	chrome.storage.local.get("participantId", function(data) {
+		metrics.participantId = data.participantId;
+		chrome.storage.local.get("metrics", function(data) {
+			var d = data.metrics || [];
+			d.push(metrics);
+			chrome.storage.local.set({metrics: d}, function() {
+		        var e = chrome.runtime.lastError;
+		        if (e)
+		            console.log(e.message);
+		        else if (cb)
+					cb();
+		    });
+	    });
+	});
+};
+
+function exit() {
+	window.history.back();
+};
+
+function finishWarning(warning) {
+	// Save metrics to local storage (if they're being tracked)
+	metrics.timeElapsed = (new Date().getTime() / 1000) - startTime;
+	chrome.storage.local.get("trackMetrics", function(data) {
+		if (data.trackMetrics)
+			saveMetrics(exit);
+		else
+			exit();
+	});
+};
 
 function initWarning(warning) {
 	// Places warning-specific text into the page
@@ -15,6 +54,10 @@ function initWarning(warning) {
 	document.querySelector(".warning-more-info").innerHTML += warning.moreInfo;
 	document.title = warning.title;
 
+	metrics.warningType = warning.type;
+	metrics.warningSeverity = warning.severity,
+	metrics.domain = document.domain;
+
 	// "More information" button
 	more.onclick = function() {
 		var infoBox = document.querySelector(".warning-more-info");
@@ -22,13 +65,18 @@ function initWarning(warning) {
 			infoBox.style.display = "block";
 		else
 			infoBox.style.display = "none";
+		metrics.clickedMoreInfo = true;
 	};
 
 	back.onclick = function() {
-		window.history.back();
+		metrics.clickedBack = true;
+		finishWarning(warning);
 	};
 
-	// TODO: "ignore this warning" listener
+	document.querySelector(".warning-proceed-link").onclick = function() {
+		metrics.clickedIgnore = true;
+		finishWarning(warning);
+	};
 };
 
 function styleTieredWarning(warning) {

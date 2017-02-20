@@ -24,7 +24,7 @@ table thead {
 
 table th > *,
 table td > * {
-    width: 95%;
+    width: 90%;
 }
 
 table th {
@@ -57,15 +57,6 @@ button {
     color: #333;
 }
 
-button:hover,
-button:focus {
-    background-color: #EBEBEB;
-}
-
-button:active {
-    background-color: #DADADA;
-}
-
 #btn-add,
 #btns-control {
     float: right;
@@ -85,4 +76,10 @@ button:active {
 
 .hidden {
     display: none;
+}
+
+select {
+    -moz-appearance: toolbarbutton-dropdown;
+    min-height: auto;
+    padding: 4px 10px;
 }
