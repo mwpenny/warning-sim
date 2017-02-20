@@ -66,31 +66,51 @@ body {
 	line-height: 50px;
 }
 
-.warning-controls {
+.warning-more,
+.warning-proceed-link {
 	float: right;
+}
+
+.warning-controls {
 	line-height: 50px;
 }
 
-.warning-more-link, .warning-proceed-link {
+.warning-proceed-link {
 	color: #212121;
-	font-size: 10px;
+	font-size: smaller;
 	margin-right: 8px;
 }
 
-.warning-more-link {
-	font-size: 14px;
-}
-
-.warning-back-button {
-	border: 1px solid #0277BD;
-	border-radius: 5px;
-	background-color: #03A9F4;
-	padding: 5px 45px;
-	color: #FFF;
+.warning-back-button,
+.warning-more-button {
+	min-width: 125px;
+	margin: 2px 4px;
+	min-height: 30px;
+	border: 1px solid #C1C1C1;
+	border-radius: 2px;
+	padding: 3px;
+	color: #333;
 	cursor: pointer;
 }
 
-.warning-back-button:hover, .warning-back-button:focus {
+.warning-more-button:hover,
+.warning-back-button:focus {
+    background-color: #EBEBEB;
+}
+
+.warning-more-button:active {
+    background-color: #DADADA;
+}
+
+.warning-back-button {
+	background-color: #03A9F4;
+	min-width: 200px;
+	color: #FFF;
+	border-color: transparent;
+}
+
+.warning-back-button:hover,
+.warning-back-button:focus {
 	background-color: #0288D1;
 }
 .warning-back-button:active {
