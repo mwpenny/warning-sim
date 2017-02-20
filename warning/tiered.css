@@ -1,52 +1,39 @@
-html, body {
-	height: 100%;
-}
-
 body {
-	margin: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font: message-box;
 	color: #222;
 }
 
 .warning-severe {
 	 background-color: #E53935;
 }
-.warning-severe > .warning-container {
+.warning-severe > .container {
 	background-color: #E57373;
 }
 
 .warning-medium {
 	 background-color: #FFD54F;
 }
-.warning-medium > .warning-container {
+.warning-medium > .container {
 	background-color: #FFF082;
 }
 
 .warning-mild {
 	 background-color: #BDBDBD;
 }
-.warning-mild > .warning-container {
+.warning-mild > .container {
 	 background-color: #EEE;
 }
 
-.warning-container {
-	min-width: 13em;
-	max-width: 52em;
+.container {
 	border-radius: 12px;
 	padding: 24px;
-	margin: 12px;
 }
 
-.warning-title {
-	width: 100%;
-	margin: 0;
-	font-weight: normal;
-	font-size: 2.5em;
-	display: inline-block;
-	border-bottom: 1px solid #444;
+.container > .title {
+	background-image: none;
+}
+
+.title-text {
+	border-bottom: 1px solid #444 !important;
 	color: #111;
 }
 
@@ -58,69 +45,11 @@ body {
 	width: 30px;
 }
 
-.warning-body {
-	font-size: 15px;
-}
-
-.warning-more {
-	line-height: 50px;
-}
-
-.warning-more,
-.warning-proceed-link {
-	float: right;
-}
-
-.warning-controls {
-	line-height: 50px;
-}
-
-.warning-proceed-link {
-	color: #212121;
-	font-size: smaller;
-	margin-right: 8px;
-}
-
-.warning-back-button,
-.warning-more-button {
-	min-width: 125px;
-	margin: 2px 4px;
-	min-height: 30px;
-	border: 1px solid #C1C1C1;
-	border-radius: 2px;
-	padding: 3px;
-	color: #333;
-	cursor: pointer;
-}
-
-.warning-more-button:hover,
-.warning-back-button:focus {
-    background-color: #EBEBEB;
-}
-
-.warning-more-button:active {
-    background-color: #DADADA;
-}
-
-.warning-back-button {
-	background-color: #03A9F4;
-	min-width: 200px;
-	color: #FFF;
-	border-color: transparent;
-}
-
-.warning-back-button:hover,
-.warning-back-button:focus {
-	background-color: #0288D1;
-}
-.warning-back-button:active {
-	background-color: #0277bd;
-}
-
 .warning-more-info {
 	display: none;
-	margin-top: 12px;
-	padding: 12px;
-	border: 1px solid #444;
-	border-radius: 8px;
+	background-color: rgba(255, 255, 255, 0.65);
+	border: 1px rgba(211, 211, 211, 0.75) solid;
+	padding: 0 12px 12px 12px;
+	box-shadow: 0 0 4px #ddd;
+	font-size: 0.9em;
 }

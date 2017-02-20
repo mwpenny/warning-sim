@@ -2,40 +2,38 @@
 
 var resBase = chrome.runtime.getURL("warning/");
 
-function insertWarningText(warning) {
+function initWarning(warning) {
 	// Places warning-specific text into the page
-	var wTitle = document.getElementsByClassName("warning-title")[0];
-	wTitle.insertBefore(document.createTextNode(warning.title), wTitle.firstChild);
-	document.getElementsByClassName("warning-body")[0].innerHTML = warning.message;
-	document.getElementsByClassName("warning-more-info")[0].innerHTML += warning.moreInfo;
-	document.title = warning.title;
-	document.head.innerHTML += "<link rel='icon' type='image/png' href='chrome://global/skin/icons/warning-16.png'/>";
-
-	var back = document.getElementsByClassName("warning-back-button")[0];
-	var more = document.getElementsByClassName("warning-more-button")[0];
+	var back = document.querySelector(".warning-back-button");
+	var more = document.querySelector(".warning-more-button");
+	var wTitle = document.querySelector(".title-text");
 
 	back.innerHTML = warning.backButtonText;
 	more.innerHTML = warning.moreInfoButtonText;
+	wTitle.insertBefore(document.createTextNode(warning.title), wTitle.firstChild);
+	document.querySelector(".warning-body").innerHTML = warning.message;
+	document.querySelector(".warning-more-info").innerHTML += warning.moreInfo;
+	document.title = warning.title;
 
 	// "More information" button
 	more.onclick = function() {
-		var infoBox = document.getElementsByClassName("warning-more-info")[0];
+		var infoBox = document.querySelector(".warning-more-info");
 		if (infoBox.style.display != "block")
 			infoBox.style.display = "block";
 		else
 			infoBox.style.display = "none";
 	};
 
-	back.addEventListener("click", function() {
+	back.onclick = function() {
 		window.history.back();
-	});
+	};
 
 	// TODO: "ignore this warning" listener
 };
 
 function styleTieredWarning(warning) {
-	// Style page depending on warning type
-	document.getElementsByClassName("warning-body")[0].innerHTML += "<br/><br/>" + warning.instructions;
+	document.head.innerHTML += "<link rel='stylesheet' type='text/css' href='" + resBase + "tiered.css'>";
+	document.querySelector(".warning-body").innerHTML += "<br/><br/>" + warning.instructions;
 	document.body.className = warning.class;
 
 	// Higher threat level -> more warning icons
@@ -51,56 +49,32 @@ function styleTieredWarning(warning) {
 };
 
 function styleControlWarning(warning) {
-	var learnLink = document.getElementsByClassName("warning-learn-link")[0];
-	if (warning.type > 0) {
-		// Not an SSL warning - "more info" button opens link to info in new tab
-		var more = document.getElementsByClassName("warning-more-button")[0];
+	var css;
+	if (warning.type == 0) {
+		// SSL warning
+		css = "chrome://browser/skin/aboutNetError.css";
+		document.body.className = "certerror";
+	}
+	else {
+		css = "chrome://browser/skin/blockedSite.css"
+	}
+	document.head.innerHTML += "<link rel='stylesheet' type='text/css' href='" + css + "'>";
+
+	if (warning.type == 0) {
+		// SSL warning. "Learn more..." link should be visible
+		var learnLink = document.querySelector(".warning-learn-link");
+		learnLink.style.display = "inline";
+		learnLink.href = warning.learnLink;
+	} else {
+		/* Not an SSL warning - "more info" button opens link to info in new tab
+		   and extra info is shown in the body */
+		var more = document.querySelector(".warning-more-button");
 		more.onclick = function() {
 			window.open(warning.learnLink);
 		};
-		learnLink.parentNode.remove();
-		document.getElementsByClassName("warning-body")[0].innerHTML += warning.moreInfo;
-	} else {
-		learnLink.href = warning.learnLink;
+		document.querySelector(".warning-body").innerHTML += warning.moreInfo;
 	}
 }
-
-function xhr(url, cb) {
-	// Performs an AJAX call
-	var req = new XMLHttpRequest();
-	req.addEventListener("load", cb);
-	req.open("GET", url);
-	req.send();
-}
-
-function loadTieredWarning(warning) {
-	// Loads tiered warning message
-	xhr(resBase + "tiered.html", function(e) {
-		document.head.innerHTML = "<link rel='stylesheet' type='text/css' href='" + resBase + "tiered.css'>";
-		document.body.innerHTML = e.target.responseText;
-		insertWarningText(warning);
-		styleTieredWarning(warning);
-	});
-};
-
-function loadControlWarning(warning) {
-	// Loads control warning message
-	xhr(resBase + "control.html", function(e) {
-		var css;
-		// SSL warning
-		if (warning.type == 0) {
-			css = "chrome://browser/skin/aboutNetError.css";
-			document.body.className = "certerror";
-		}
-		else {
-			css = "chrome://browser/skin/blockedSite.css"
-		}
-		document.head.innerHTML = "<link rel='stylesheet' type='text/css' href='" + css + "'>";
-		document.body.innerHTML = e.target.responseText;
-		insertWarningText(warning);
-		styleControlWarning(warning);
-	});
-};
 
 // Does this domain trigger a warning?
 chrome.runtime.sendMessage({domain: document.domain}, function(warning) {
@@ -109,13 +83,20 @@ chrome.runtime.sendMessage({domain: document.domain}, function(warning) {
 		window.stop();
 		document.removeChild(document.documentElement);
 		document.appendChild(document.createElement("html"));
-		document.documentElement.appendChild(document.createElement("head"));
-		document.documentElement.appendChild(document.createElement("body"));
 
-		// 0 = mild, 1 = medium, 2 = severe, 3 = control
-		if (warning.severity == 3)
-			loadControlWarning(warning);
-		else
-			loadTieredWarning(warning);
+		// Load the warning template into the DOM
+		var req = new XMLHttpRequest();
+		req.addEventListener("load", function(e) {
+			document.documentElement.innerHTML = e.target.responseText;
+			initWarning(warning);
+
+			// 0 = mild, 1 = medium, 2 = severe, 3 = control
+			if (warning.severity == 3)
+				styleControlWarning(warning);
+			else
+				styleTieredWarning(warning);
+		});
+		req.open("GET", resBase + "template.html");
+		req.send();
 	}
 });
