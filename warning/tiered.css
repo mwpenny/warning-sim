@@ -43,6 +43,7 @@ body {
 
 .warning-icons > * {
 	width: 30px;
+	height: 30px;
 }
 
 .warning-more-info {
@@ -52,4 +53,8 @@ body {
 	padding: 0 12px 12px 12px;
 	box-shadow: 0 0 4px #ddd;
 	font-size: 0.9em;
+}
+
+.warning-proceed-link {
+	cursor: pointer;
 }

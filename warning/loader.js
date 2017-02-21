@@ -1,7 +1,7 @@
 /* Loader for injecting warning messages into pages */
 
 var resBase = chrome.runtime.getURL("warning/");
-var startTime = new Date().getTime() / 1000;
+var startTime;
 var metrics = {
 	clickedMoreInfo: false,
 	clickedBack: false,
@@ -27,7 +27,11 @@ function saveMetrics(cb) {
 };
 
 function exit() {
-	window.history.back();
+	// Running in shuffle mode: move to the next warning
+	if (window.parent.location == chrome.runtime.getURL("warning/shuffler.html"))
+		window.parent.triggerNext();
+	else
+		window.history.back();
 };
 
 function finishWarning(warning) {
@@ -77,6 +81,7 @@ function initWarning(warning) {
 		metrics.clickedIgnore = true;
 		finishWarning(warning);
 	};
+	startTime = new Date().getTime() / 1000;
 };
 
 function styleTieredWarning(warning) {
@@ -85,7 +90,7 @@ function styleTieredWarning(warning) {
 	document.body.className = warning.class;
 
 	// Higher threat level -> more warning icons
-	var wIcons = document.getElementsByClassName("warning-icons")[0].getElementsByTagName("object");
+	var wIcons = document.querySelector(".warning-icons").getElementsByTagName("object");
 	for (var i = 0; i < 3; ++i) {
 		var svg;
 		if (i <= warning.severity)
@@ -107,6 +112,7 @@ function styleControlWarning(warning) {
 		css = "chrome://browser/skin/blockedSite.css"
 	}
 	document.head.innerHTML += "<link rel='stylesheet' type='text/css' href='" + css + "'>";
+	document.querySelector(".warning-icons").remove();
 
 	if (warning.type == 0) {
 		// SSL warning. "Learn more..." link should be visible
@@ -124,8 +130,9 @@ function styleControlWarning(warning) {
 	}
 }
 
-// Does this domain trigger a warning?
-chrome.runtime.sendMessage({domain: document.domain}, function(warning) {
+/* Separate handler so a warning can be triggered at any time -
+   not just in response to our messages (i.e., for shuffle mode) */
+chrome.runtime.onMessage.addListener(function(warning) {
 	if (warning && warning.triggered) {
 		// We need a clean DOM
 		window.stop();
@@ -148,3 +155,4 @@ chrome.runtime.sendMessage({domain: document.domain}, function(warning) {
 		req.send();
 	}
 });
+chrome.runtime.sendMessage({domain: document.domain});

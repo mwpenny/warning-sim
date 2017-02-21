@@ -36,26 +36,34 @@
 				</tbody>
 			</table>
 
-			<button type="button" id="btn-add">Add entry</button>
+			<button type="button" id="btn-add" class="primary">Add entry</button>
 			<span id="btns-control" class="hidden">
-				<button type="button" id="btn-accept" title="Accept and add new entry">Accept</button>
+				<button type="button" id="btn-accept" class="primary" title="Accept and add new entry">Accept</button>
 				<button type="button" id="btn-cancel" title="Cancel new entry">Cancel</button>
 			</span>
 		</div>
+
+		<br/>
+		<div>
+			<h1 class="title">User study</h1>
+			<label for="textbox-participant">Participant ID</label>
+			<input type="text" id="textbox-participant" title="ID for participant">
+			<button type="button" id="btn-save-participent" class="primary" title="Save participent ID" disabled>Save</button>
+			<br/><br/>
+
+			<button type="button" id="btn-view-all" title="View all warning messages in a random order">View all warnings</button>
+			<br/><br/>
+		</div>
+
 		<br/>
 		<div>
 			<h1 class="title">Metrics</h1>
-			<label for="textbox-participant">Participant ID</label>
-			<input type="text" id="textbox-participant" title="ID for participant">
-			<button type="button" id="btn-save-participent" title="Save participent ID" disabled>Save</button>
-			<br/><br/>
-
-			<input type="checkbox" id="checkbox-track" title="Track metrics">
+			<input type="checkbox" id="checkbox-track">
 			<label for="checkbox-track">Track metrics</label>
 			<br/><br/>
 
-			<button type="button" id="btn-clear-metrics" title="Clear saved metrics">Clear</button>
-			<button type="button" id="btn-download-metrics" title="Download saved metrics">Download</button>
+			<button type="button" id="btn-download-metrics" class="primary" title="Download saved metrics">Download metrics</button>
+			<button type="button" id="btn-clear-metrics" title="Clear saved metrics">Clear metrics</button>
 
 			<!-- This is so the filename of the metrics CSV can be specified -->
 			<a href="#" id="link-metrics-download" download="metrics.csv" style="display: none"></a>

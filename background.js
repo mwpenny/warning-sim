@@ -86,16 +86,17 @@ chrome.storage.local.get("domains", function(data) {
 	domains = data.domains;
 });
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(message, sender) {
 	// Update cached trigger domain list
 	if (message.hasOwnProperty("domains"))
 		domains = message.domains;
 
 	// Check if domain triggers a warning and return its contents (if any)
 	if (message.hasOwnProperty("domain")) {
-		var response = {triggered: domains.hasOwnProperty(message.domain)};
+		// Allow manually triggering warnings and specifying type (used by shuffle mode)
+		var response = {triggered: message.triggered || domains.hasOwnProperty(message.domain)};
 		if (response.triggered) {
-			var domainInfo = domains[message.domain];
+			var domainInfo = message.domainInfo || domains[message.domain];
 			var warning = warnings[domainInfo.type];
 			var msg = warning.tieredMessages[domainInfo.severity];
 			response.message = msg.replace("$", message.domain);
@@ -120,6 +121,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 			response.severity = domainInfo.severity;
 			response.type = domainInfo.type;
 		}
-		sendResponse(response);
+		/* A message will be sent to this script either by the loader
+		   or shuffle content scripts. In both cases, we want the response
+		   to go to the loader script, so instead of responding to the sender
+		   of the message, we will always send our response to the tab which
+		   sent the message (in the case of shuffle mode, the loader script will
+		   be loaded in the same tab as the shuffle script (in the container iframe) */
+		chrome.tabs.sendMessage(sender.tab.id, response);
 	}
 });

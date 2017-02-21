@@ -98,7 +98,7 @@ function resetEditInputs() {
 function showEditControls(showing) {
     var newClass = showing ? "" : "hidden";
 
-    document.getElementById("btn-add").className = showing ? "hidden" : "";
+    document.getElementById("btn-add").className = showing ? "hidden" : "primary";
     document.getElementById("row-edit").className = newClass;
     document.getElementById("btns-control").className = newClass;
 }
@@ -124,10 +124,12 @@ function clearMetrics() {
 function downloadMetrics() {
     chrome.storage.local.get("metrics", function(data) {
         var metrics = data.metrics || [];
+        var lines = ["data:text/csv;charset=utf-8,"];
+        var a = document.getElementById("link-metrics-download");
         if (metrics.length > 0) {
             // Construct CSV
             var header = Object.keys(metrics[0]);
-            var lines = ["data:text/csv;charset=utf-8," + header.join(",")];
+            lines[0] += header.join(",");
             metrics.forEach(function(metric) {
                 var c = [];
                 header.forEach(function(column) {
@@ -135,11 +137,9 @@ function downloadMetrics() {
                 });
                 lines.push(c.join(","));
             });
-            // Create and click download link (so we can specify the file name)
-            var a = document.getElementById("link-metrics-download");
-            a.href = encodeURI(lines.join("\n"));
-            a.click();
         }
+        a.href = encodeURI(lines.join("\n"));
+        a.click();
     });
 };
 
@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     acceptBtn.addEventListener("click", commitEdit);
     document.getElementById("btn-add").addEventListener("click", function() {
         resetEditInputs();
+        acceptBtn.disabled = true;
         showEditControls(true);
     });
     document.getElementById("btn-cancel").addEventListener("click", function() {
@@ -174,6 +175,9 @@ document.addEventListener("DOMContentLoaded", function() {
     trackCb.addEventListener("change", function(e) {
         saveToStorage({trackMetrics: this.checked});
     });
+    document.getElementById("btn-view-all").addEventListener("click", function() {
+        window.open(chrome.runtime.getURL("warning/shuffler.html"));
+    });
     document.getElementById("btn-clear-metrics").addEventListener("click", clearMetrics);
     document.getElementById("btn-download-metrics").addEventListener("click", downloadMetrics);
 
@@ -181,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
     populateDropdown(selectors[0], warningTypes);
     populateDropdown(selectors[1], severities);
     chrome.storage.local.get("participantId", function(data) {
-        participantText.value = data.participantId;
+        participantText.value = data.participantId || "";
     });
     chrome.storage.local.get("trackMetrics", function(data) {
         trackCb.checked = data.trackMetrics;
