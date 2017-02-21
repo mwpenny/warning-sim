@@ -8,6 +8,12 @@
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
   },
+  "applications": {
+    "gecko": {
+      "id": "warning-sim@mattp.ca",
+      "strict_min_version": "48.0"
+    }
+  },
   "options_ui": {
     "page": "options/options.html"
   },
