@@ -1,7 +1,7 @@
 # ![icon](icons/icon-48.png) warning-sim
 ---
 
-A Firefox/Chrome extension (WebExtensions API) for displaying simulated warning messages in user studies.
+A Firefox/Chrome* extension (WebExtensions API) for displaying simulated warning messages in user studies.
 
 Features:
 * Set warning messages to trigger on specific domains (specify warning type and severity)
@@ -10,3 +10,5 @@ Features:
 
 Screenshot:
 ![options](screenshots/options.png)
+
+_*Note that Firefox internal CSS is used by parts of the warning and options pages, so some modifications will need to be done to make them look the same in Chrome. The main functionality works cross-browser._
