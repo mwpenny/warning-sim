@@ -26,6 +26,7 @@ body {
 .container {
 	border-radius: 12px;
 	padding: 24px;
+	width: 52em;
 }
 
 .container > .title {
