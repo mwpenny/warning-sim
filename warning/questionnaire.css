@@ -1,0 +1,56 @@
+.title-text {
+	font-size: 2.5em;
+	text-align: center;
+}
+
+.container {
+	width: 35em;
+}
+
+.questionnaire-body {
+	text-align: center;
+}
+
+.questionnaire-body > .question {
+	font-weight: bold;
+}
+
+.questionnaire-body > textarea {
+	width: 100%;
+	resize: none;
+}
+
+ul.likert {
+	list-style: none;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+ul.likert::before {
+	display: block;
+	position: relative;
+	background-color: #E7E7E7;
+	content: "";
+	top: 12px;
+	height: 4px;
+	left: 10.5%;
+	width: 79%;
+}
+
+ul.likert > li {
+	display: inline-block;
+	width: 19%;
+	text-align: center;
+}
+
+ul.likert input[type="radio"] {
+	display: block;
+	position: relative;
+	left: 50%;
+	margin-left: -6px;
+}
+
+.questionnaireProceedButton {
+    min-width: 6em;
+}

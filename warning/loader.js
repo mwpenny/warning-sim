@@ -34,12 +34,39 @@ function exit() {
 		window.history.back();
 };
 
+function replaceDOM(path, cb) {
+	// We need a clean DOM
+	document.removeChild(document.documentElement);
+	document.appendChild(document.createElement("html"));
+
+	// Load the new page into the DOM
+	var req = new XMLHttpRequest();
+	req.addEventListener("load", function(e) {
+		document.documentElement.innerHTML = e.target.responseText;
+		if (cb)
+			cb();
+	});
+	req.open("GET", path);
+	req.send();
+}
+
 function finishWarning(warning) {
 	// Save metrics to local storage (if they're being tracked)
 	metrics.timeElapsed = (new Date().getTime() / 1000) - startTime;
 	chrome.storage.local.get("trackMetrics", function(data) {
-		if (data.trackMetrics)
-			saveMetrics(exit);
+		if (data.trackMetrics) {
+			// Collect additional metrics from warning questionnaire before saving
+			replaceDOM(resBase + "questionnaire.html", function() {
+				document.head.innerHTML += "<link rel='stylesheet' type='text/css' href='" + resBase + "questionnaire.css'>";
+				var proceedBtn = document.querySelector(".questionnaireProceedButton");
+				proceedBtn.onclick = function() {
+					var selection = document.querySelector(".likert input[type='radio']:checked");
+					metrics.userSeverityRating = selection ? selection.value : null;
+					metrics.userImpression = document.querySelector("textarea").value;
+					saveMetrics(exit);
+				}
+			});
+		}
 		else
 			exit();
 	});
@@ -134,15 +161,10 @@ function styleControlWarning(warning) {
    not just in response to our messages (i.e., for shuffle mode) */
 chrome.runtime.onMessage.addListener(function(warning) {
 	if (warning && warning.triggered) {
-		// We need a clean DOM
 		window.stop();
-		document.removeChild(document.documentElement);
-		document.appendChild(document.createElement("html"));
 
 		// Load the warning template into the DOM
-		var req = new XMLHttpRequest();
-		req.addEventListener("load", function(e) {
-			document.documentElement.innerHTML = e.target.responseText;
+		replaceDOM(resBase + "template.html", function() {
 			initWarning(warning);
 
 			// 0 = mild, 1 = medium, 2 = severe, 3 = control
@@ -151,8 +173,6 @@ chrome.runtime.onMessage.addListener(function(warning) {
 			else
 				styleTieredWarning(warning);
 		});
-		req.open("GET", resBase + "template.html");
-		req.send();
 	}
 });
 chrome.runtime.sendMessage({domain: document.domain});

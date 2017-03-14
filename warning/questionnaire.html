@@ -1,0 +1,55 @@
+<!-- Warning message questionnaire -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="chrome://browser/skin/error-pages.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="title-text">
+				Warning message questionnaire
+			</h1>
+
+			<div class="questionnaire-body">
+				<p>
+					Before continuing, please answer the following questions regarding the warning message you just saw.
+				</p>
+
+				<p class="question">
+					1. How do you rate the severity of the warning message you just saw?
+				</p>
+				<ul class="likert">
+					<li title="Very low severity">
+						<input id="likert0" type="radio" name="userSeverityRating" value="0">
+						<label for="likert0">Very low</label>
+					</li>
+					<li title="Low severity">
+						<input id="likert1" type="radio" name="userSeverityRating" value="1">
+						<label for="likert1">Low</label>
+					</li>
+					<li title="Medium severity">
+						<input id="likert2" type="radio" name="userSeverityRating" value="2">
+						<label for="likert2">Medium</label>
+					</li>
+					<li title="High severity">
+						<input id="likert3" type="radio" name="userSeverityRating" value="3">
+						<label for="likert3">High</label>
+					</li>
+					<li title="Very high severity">
+						<input id="likert4" type="radio" name="userSeverityRating" value="4">
+						<label for="likert4">Very high</label>
+					</li>
+				</ul>
+
+				<p class="question">
+					2. Please explain the reason(s) for your answer to question 1:
+				</p>
+				<textarea></textarea>
+			</div>
+
+			<div style="margin-top: 1.2em; text-align: center;">
+				<button type="button" class="questionnaireProceedButton">Proceed</button>
+			</div>
+		</div>
+	</body>
+</html>
