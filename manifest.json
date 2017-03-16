@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Warning Simulator",
   "author": "Matt Penny",
-  "version": "1.1",
+  "version": "1.11",
   "description": "Displays simulated warning messages for use in user studies.",
   "icons": {
     "48": "icons/icon-48.png",

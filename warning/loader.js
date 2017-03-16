@@ -2,12 +2,7 @@
 
 var resBase = chrome.runtime.getURL("warning/");
 var startTime;
-var metrics = {
-	clickedMoreInfo: false,
-	clickedBack: false,
-	clickedIgnore: false,
-	timeElapsed: 0  // In seconds
-};
+var metrics = {};
 
 function saveMetrics(cb) {
 	chrome.storage.local.get("participantId", function(data) {
@@ -62,7 +57,7 @@ function finishWarning(warning) {
 				proceedBtn.onclick = function() {
 					var selection = document.querySelector(".likert input[type='radio']:checked");
 					metrics.userSeverityRating = selection ? selection.value : null;
-					metrics.userImpression = document.querySelector("textarea").value;
+					metrics.userImpression = '"' + document.querySelector("textarea").value.replace(/\"/g, '""').replace(/\n/g, "") + '"';
 					saveMetrics(exit);
 				}
 			});
@@ -88,6 +83,8 @@ function initWarning(warning) {
 	metrics.warningType = warning.type;
 	metrics.warningSeverity = warning.severity,
 	metrics.domain = document.domain;
+	metrics.clickedMoreInfo = false;
+	metrics.ignoredWarning = true;
 
 	// "More information" button
 	more.onclick = function() {
@@ -100,12 +97,11 @@ function initWarning(warning) {
 	};
 
 	back.onclick = function() {
-		metrics.clickedBack = true;
+		metrics.ignoredWarning = false;
 		finishWarning(warning);
 	};
 
 	document.querySelector(".warning-proceed-link").onclick = function() {
-		metrics.clickedIgnore = true;
 		finishWarning(warning);
 	};
 	startTime = new Date().getTime() / 1000;
