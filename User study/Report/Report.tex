@@ -1,0 +1,162 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Based on the "Masters/Doctoral Thesis" template (version 2.4) by:
+% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+%
+% Template license:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[
+	11pt, % Default doc font size
+	oneside, % Two side (alternating margins) for binding by default
+	english, % Language
+	singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+	%draft, % Uncomment for draft mode (no pictures, no links, overfull hboxes indicated)
+	%nolistspacing, % If doc is onehalfspacing or doublespacing, uncomment to set spacing in lists to single
+	%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+	%toctotoc, % Uncomment to add the main table of contents to the table of contents
+	parskip, % Uncomment to add space between paragraphs
+	%nohyperref, % Uncomment to not load the hyperref package
+	headsepline, % Uncomment to get a line under the header
+	chapterinoneline, % Uncomment to place the chapter title next to the number on one line
+	consistentlayout, % Uncomment to change layout the declaration, abstract and acknowledgements pages to match the default layout
+]{MastersDoctoralThesis} % Class file specifying document structure
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{tabularx}
+
+\usepackage{palatino} % Use the Palatino font by default
+
+\usepackage[backend=bibtex, style=trad-abbrv]{biblatex}
+\setlength\bibitemsep{\baselineskip}
+\addbibresource{References.bib}
+
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in bib
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+\geometry{
+	paper=letterpaper, % letterpaper, a4paper, etc.
+	inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	THESIS INFORMATION
+%----------------------------------------------------------------------------------------
+\thesistitle{User Trust and Adherence toward Tiered Warning Messages in Web Browsers} % Use with \ttitle
+\supervisor{Dr. Sonia \textsc{Chiasson}} % Use with \supname
+\author{Matthew \textsc{Penny}} % Use with \authorname
+
+\university{\href{http://www.carleton.ca}{Carleton University}} % Use with \univname
+\department{\href{http://scs.carleton.ca}{School of Computer Science}} % Use with \deptname
+\faculty{\href{http://science.carleton.ca}{Faculty of Science}} % Use with \facname
+\degree{Bachelor of Computer Science} % Use with \degreename
+
+% Set PDF metadata
+\AtBeginDocument{
+	\hypersetup{pdftitle={User Trust and Adherence toward Tiered Warning Messages in Web Browsers}}
+	\hypersetup{pdfauthor=Matthew Penny}
+	\hypersetup{pdfkeywords={Web security, usable security, HCI, warning messages, warning design}}
+ 	\hypersetup{linkcolor=black}
+ 	\hypersetup{citecolor=black}
+}
+
+% This report has "sections" not "chapters"
+\makeatletter
+\renewcommand{\@chapapp}{Section}
+\makeatother
+\begin{document}
+
+\frontmatter % Use roman page numbering for pre-content pages
+\pagestyle{plain} % Default to plain heading style until thesis style is called for body
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\begin{center}
+		\vspace*{.06\textheight}
+		%{\scshape\LARGE \univname\par}\vspace{1.5cm}
+		{\scshape\LARGE \href{http://www.carleton.ca}{\includegraphics[scale=0.35]{Carleton-Logo}}\par}\vspace{1.5cm}
+		\HRule \\[0.4cm]
+		{\huge \bfseries \ttitle\par}\vspace{0.4cm}
+		\HRule \\[1.5cm]
+		\textsc{\Large Honours Project}\\[0.5cm]
+ 
+		\begin{minipage}[t]{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Author:}\\
+				\href{http://www.mattp.ca}{\authorname}
+			\end{flushleft}
+		\end{minipage}
+		\begin{minipage}[t]{0.4\textwidth}
+			\begin{flushright} \large
+				\emph{Supervisor:} \\
+				\href{http://carleton.ca/scs/people/sonia-chiasson}{\supname}
+			\end{flushright}
+		\end{minipage}\\[3cm]
+ 
+		\vfill
+		COMP 4905\\\deptname\\[2cm]		
+		\vfill
+		{\large \today}\\[4cm]
+		\vfill
+	\end{center}
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+\begin{abstract}
+Users browsing the web frequently encounter warning messages in situations deemed dangerous by browser vendors. Current implementations use similar messages in all such cases, which could result in a greater likelihood of user habituation. We investigate the effectiveness of tiered warning messages of varying severity levels and appearances in an attempt to more strongly convey risk and thereby increase adherence rates.
+
+We conducted a study in which 20 participants first reacted to an unanticipated warning message  and then, after learning the purpose of the study, 16 others. Most participants quickly ignored the warning in the first phase of the study, but in the second phase we found that our high severity tiered messages significantly outperformed the control messages in terms of user adherence and severity rating. Our low and medium severity tiered messages had significantly lower results in both areas. Additionally, users reacted more quickly to all tiered messages, on average, compared to the controls (whether dismissing them or adhering to them).
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+\begin{acknowledgements}
+	\addchaptertocentry{\acknowledgementname}
+	Thank you to my supervisor, \supname, for your consistent feedback and enthusiasm for discussion.
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+\tableofcontents
+\listoffigures
+\listoftables
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+\include{Chapters/Introduction}
+\include{Chapters/Background}
+\include{Chapters/Design}
+\include{Chapters/Methodology}
+\include{Chapters/Results}
+\include{Chapters/Discussion}
+\include{Chapters/Conclusion}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\renewcommand\bibname{References}
+\printbibliography[heading=bibintoc]
+
+\end{document}  
